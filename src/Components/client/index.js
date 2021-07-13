@@ -2,26 +2,45 @@ import React from 'react';
 import './client.css';
 
 class Client extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      studentName: '',
+      clientName: '',
     };
     console.log('PROPS', this.props.socket);
   }
-  
+
+  // use `componentDidMount` lifescycle method that runs after the component rendered 
+  // 1. get the client name 
+  // 2.define the state `clientName` 
+  // 3.use the socket.on props to connect to the socket.io backent
+
   componentDidMount() {
-    const studentName = prompt("WHAT's your name?");
-    this.setState({ studentName });
+    const clientName = prompt("What's your name?");
+    this.setState({ clientName });
+
     this.props.socket.on('connect', () => {
+
+      // when the ticket is claimed by an admin; the client should be alerted.
+
       this.props.socket.on('claimed', function (payload) {
         alert(`${payload.name} claimed your ticket`);
       });
     });
   }
+
+  // handleChange: updates the values of the inputs simultaneously 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+
+  // on submitting the form 
+  // 1. prevent the page from refresh.
+  // 2. definr your payload .
+  // 3.emit the payload.
+  // 4. when the client submits the form all available admins are informed.
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -29,91 +48,100 @@ class Client extends React.Component {
       ...this.state,
       created_at: Date.now(),
     };
-    console.log('hello', payload);
-    // once the user submit the form we need to emit a ticket so all TAs can see that ticket
-
-    // 1
+    console.log('handle submit payload is = ', payload);
     this.props.socket.emit('createTicket', payload);
   };
+
+
   render() {
     return (
       <main className="container">
         <section className="form-card">
           <form id="questions-form" onSubmit={this.handleSubmit}>
+
             <input
               className="question"
               type="text"
               name="question"
-              placeholder="write your question here..."
+              placeholder="Describe your Problem here... 👨‍🔧️👨‍🔧️"
               required
               onChange={this.handleChange}
             />
-            <label className="lab">
+
+
+            <label className="t1">
               <input
                 type="radio"
                 name="type"
-                value="lab"
+                value="resedntial"
                 required
                 onChange={this.handleChange}
               />
-              lab
+              Resedntial
             </label>
-            <label className="cc">
+
+            <label className="t2">
               <input
                 type="radio"
                 name="type"
-                value="code challenge"
+                value="industrial"
                 onChange={this.handleChange}
               />
-              cc
+              Industrial
             </label>
-            <label className="course">
+
+            <label className="ser">
               <input
                 type="radio"
-                name="course"
-                value="201"
+                name="service"
+                value="electrical"
                 required
                 onChange={this.handleChange}
               />
-              201
+              Electrical
             </label>
-            <label className="course">
+
+            <label className="ser">
               <input
                 type="radio"
-                name="course"
-                value="301"
+                name="service"
+                value="mechanical"
                 onChange={this.handleChange}
               />
-              301
+              Mechanical
             </label>
-            <label className="course">
+
+            <label className="ser">
               <input
                 type="radio"
-                name="course"
-                value="401js"
+                name="service"
+                value="sewage"
                 onChange={this.handleChange}
               />
-              401js
+              Sewage
             </label>
-            <label className="course">
+
+            <label className="ser">
               <input
                 type="radio"
-                name="course"
-                value="401py"
+                name="service"
+                value="restoration"
                 onChange={this.handleChange}
               />
-              401py
+              Restoration
             </label>
-            <label className="course">
+
+            <label className="ser">
               <input
                 type="radio"
-                name="course"
-                value="401java"
+                name="service"
+                value="others"
                 onChange={this.handleChange}
               />
-              401java
+              Others
             </label>
-            <button className="question">help!</button>
+
+            <button className="question">Request Professional Assistance</button>
           </form>
         </section>
       </main>
