@@ -1,5 +1,6 @@
 import React from 'react';
 import './client.css';
+import Alert from 'react-bootstrap/Alert';
 
 class Client extends React.Component {
 
@@ -7,6 +8,7 @@ class Client extends React.Component {
     super(props);
     this.state = {
       clientName: '',
+      clickedIt: false
     };
     console.log('PROPS', this.props.socket);
   }
@@ -50,6 +52,9 @@ class Client extends React.Component {
     };
     console.log('handle submit payload is = ', payload);
     this.props.socket.emit('createTicket', payload);
+    this.setState({
+      clickedIt: true
+    });
   };
 
 
@@ -143,8 +148,10 @@ class Client extends React.Component {
 
             <button className="question">Request Professional Assistance</button>
           </form>
+          {this.state.clickedIt && <Alert variant="primary">Your request has been submitted :P </Alert>}
         </section>
       </main>
+
     );
   }
 }
