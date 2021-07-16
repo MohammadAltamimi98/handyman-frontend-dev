@@ -148,7 +148,7 @@ class Client extends React.Component {
 
             <button className="question">Request Professional Assistance</button>
           </form>
-          {this.state.clickedIt && <Alert variant="danger" close>Your request has been submitted :P </Alert>}
+          {this.state.clickedIt && <Alert variant="primary">Your request has been submitted :P </Alert>}
         </section>
       </main>
 

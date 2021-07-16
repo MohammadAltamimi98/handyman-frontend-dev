@@ -32,29 +32,34 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div id="main">
         {/* <main className="container"> */}
 
 
         {!this.state.showUp && !this.state.showIn
           &&
-          <> <h3>Welcome to our HandyMan assistance service! You can order the best workers online for Residential or Industrial placements at your comfort.</h3><br />
-            <h5>Our services extends from Sewage and sanitary systems fixation to rennovating and Mechanical support.</h5></>}
+          <div id="greetings"> <h3>🔨  Welcome to our HandyMan assistance service! 👨‍🔧️ <br />
+            <br />
+            You can order the best workers online for Residential or Industrial placements at your comfort.</h3><br />
+            <h5> - Our services extends from Sewage and sanitary systems fixation to rennovating and Mechanical support.</h5></div>}
 
 
         {this.state.showUp && <SignUp />}
         {this.state.showIn && <SignIn />}
 
-        <Button
+        <Button id="btn1"
           variant="primary"
           onClick={this.handleClickShowUp}
+          size="lg"
         >
           Sign Up
         </Button>
 
-        <Button
+        <Button id="btn2"
           variant="primary"
-          onClick={this.handleClickShowIn}>
+          onClick={this.handleClickShowIn}
+          size="lg"
+        >
           Sign In
         </Button>
 
