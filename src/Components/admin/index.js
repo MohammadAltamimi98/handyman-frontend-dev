@@ -12,10 +12,8 @@ class Admin extends React.Component {
       adminName: '',
       tickets: [],
       onlineAdmins: [],
-      redirect: false,
-      failRedirect: false
     };
-    console.log('PROPS', this.props);
+    //console.log('PROPS', this.props);
   }
 
 
@@ -36,7 +34,7 @@ class Admin extends React.Component {
         this.setState({
           adminName: this.props.verify().username
         });
-        //console.log(await this.fetchTickets());
+        ////console.log(await this.fetchTickets());
         this.props.socket.on('connect', () => {
           const adminName = this.state.adminName;
           // when a new admin joins: set state of name to admin name
@@ -44,7 +42,7 @@ class Admin extends React.Component {
           this.props.socket.emit('getAll');
           this.props.socket.on('newTicket', (payload) => {
             this.setState({ tickets: [...this.state.tickets, payload] });
-            console.log(this.state.tickets)
+            //console.log(this.state.tickets)
           });
 
 
@@ -53,7 +51,7 @@ class Admin extends React.Component {
           });
 
           this.props.socket.on('offlineAdmins', (payload) => {
-            console.log('offlineAdmins payload = ', payload);
+            //console.log('offlineAdmins payload = ', payload);
 
             this.setState({
               onlineAdmins: this.state.onlineAdmins.filter((admins) => admins.id !== payload.id),
@@ -62,23 +60,15 @@ class Admin extends React.Component {
 
         });
       }
-      else {
-        this.setState({ redirect: true })
-      }
 
 
-    }
-    else {
-      this.setState({
-        failRedirect: true
-      })
     }
 
 
   }
 
   handleClaim = (id, socketId) => {
-    console.log(socketId);
+    //console.log(socketId);
     this.props.socket.emit('claim', {
       id,
       name: this.state.adminName,
@@ -89,13 +79,7 @@ class Admin extends React.Component {
 
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect
-        to="/client" />
-    }
-    if (this.state.failRedirect) {
-      return <Redirect to="/" />
-    }
+
     return (
 
       <main className="admin-container">

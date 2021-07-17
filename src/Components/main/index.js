@@ -6,12 +6,13 @@ import Home from '../home';
 import io from 'socket.io-client';
 import jwt from 'jsonwebtoken';
 const SERVER_URL = process.env.REACT_APP_SERVER;
+const secret = process.env.SECRET;
 // const SERVER_URL =' localhost:5000/';
 
 const verify = () => {
   if (localStorage.getItem("token")) {
     const token = localStorage.getItem("token");
-    const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
+    const validUser = jwt.verify(token, secret);
     return validUser;
   }
   else {

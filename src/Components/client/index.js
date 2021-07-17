@@ -3,18 +3,15 @@ import './client.css';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { Redirect } from 'react-router-dom';
 class Client extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       clientName: '',
-      clickedIt: false,
-      redirect: false,
-      failRedirect: false,
+      clickedIt: false
     };
-    console.log('PROPS', this.props.socket);
+    //console.log('PROPS', this.props.socket);
   }
 
   // use `componentDidMount` lifescycle method that runs after the component rendered 
@@ -29,22 +26,12 @@ class Client extends React.Component {
         this.props.socket.on('connect', () => {
           // when the ticket is claimed by an admin; the client should be alerted.
           this.props.socket.on('claimed', function (payload) {
-            console.log(payload, "claimed");
+            //console.log(payload, "claimed");
             alert(`${payload.name} claimed your ticket`);
           });
         });
       }
-      else {
-        this.setState({
-          redirect: true
-        })
-      }
-    }
 
-    else {
-      this.setState({
-        failRedirect: true
-      })
     }
 
   }
@@ -68,7 +55,8 @@ class Client extends React.Component {
       created_at: Date.now(),
     };
     const token = localStorage.getItem("token");
-    const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
+    const secret = process.env.SECRET;
+    const validUser = jwt.verify(token, secret);
 
     const newTicketData = {
       userid: validUser.id,
@@ -77,7 +65,7 @@ class Client extends React.Component {
       service: this.state.service,
       adminName: "any"
     }
-    console.log(token, "token");
+    //console.log(token, "token");
     const config = {
 
       headers: { authorization: `Bearer ${token}` }
@@ -85,7 +73,6 @@ class Client extends React.Component {
     }
     const SERVER_URL = process.env.REACT_APP_SERVER;
     const newTicket = await axios.post(`${SERVER_URL}/tickets`, newTicketData, config)
-    console.log(newTicket);
     this.props.socket.emit('createTicket', payload);
 
 
@@ -97,12 +84,6 @@ class Client extends React.Component {
 
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="/admin" />
-    }
-    if (this.state.failRedirect) {
-      return <Redirect to="/" />
-    }
     return (
       <main className="container">
         <section className="form-card">
