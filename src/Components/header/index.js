@@ -2,10 +2,24 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
 import { Link, useHistory } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
+
 
 
 
 function Header() {
+
+
+  function validUser1() {
+    if (localStorage.getItem("token")) {
+      const token1 = localStorage.getItem("token");
+      if (token1) {
+        const validUser1 = jwt.verify(token1, "HelloFromMohammedAlramahiTheBest");
+        console.log(validUser1);
+        return validUser1.username;
+      }
+    }
+  }
 
   const history = useHistory();
   function logOut() {
@@ -13,6 +27,11 @@ function Header() {
     return history.push('/');
 
   }
+
+  const token1 = localStorage.getItem("token");
+  console.log(token1);
+
+
   return (
     <div>
       <Navbar bg="primary" variant="dark">
@@ -27,8 +46,9 @@ function Header() {
         </Nav>
         {localStorage.getItem('token') ?
           <Nav>
-            <NavDropdown title="user name">
-              <NavDropdown.Item exact onClick={logOut}>Log Out</NavDropdown.Item>
+
+            <NavDropdown title={validUser1()}>
+              <NavDropdown.Item onClick={logOut}>Log Out</NavDropdown.Item>
             </NavDropdown>
           </Nav> : null
         }
