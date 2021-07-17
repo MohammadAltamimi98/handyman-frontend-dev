@@ -37,8 +37,8 @@ export default class SignUp extends Component {
       password: this.state.pswd,
       admin: this.state.admin
     }
-    console.log(userDetails);
-    const newUser = await axios.post("http://localhost:5000/signup", userDetails);
+    const HOST = process.env.REACT_APP_SERVER;
+    const newUser = await axios.post(`${HOST}/signup`, userDetails);
     console.log(newUser.data);
     //localStorage.setItem();
     console.log('handle submit payload is = ', payload);

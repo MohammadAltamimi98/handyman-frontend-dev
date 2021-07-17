@@ -83,7 +83,8 @@ class Client extends React.Component {
       headers: { authorization: `Bearer ${token}` }
 
     }
-    const newTicket = await axios.post("http://localhost:5000/tickets", newTicketData, config)
+    const SERVER_URL = process.env.REACT_APP_SERVER;
+    const newTicket = await axios.post(`${SERVER_URL}/tickets`, newTicketData, config)
     console.log(newTicket);
     this.props.socket.emit('createTicket', payload);
 

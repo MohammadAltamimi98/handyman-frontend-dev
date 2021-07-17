@@ -5,7 +5,7 @@ import Client from '../client';
 import Home from '../home';
 import io from 'socket.io-client';
 import jwt from 'jsonwebtoken';
-// const SERVER_URL = process.env.SERVER_URL || 'localhost:5000/';
+const SERVER_URL = process.env.REACT_APP_SERVER;
 // const SERVER_URL =' localhost:5000/';
 
 const verify = () => {
@@ -18,7 +18,7 @@ const verify = () => {
     return null;
   }
 }
-const socket = io(`localhost:5000/`, { transports: ['websocket'] });
+const socket = io(`${SERVER_URL}/`, { transports: ['websocket'] });
 function Main(props) {
   return (
     <Switch>
