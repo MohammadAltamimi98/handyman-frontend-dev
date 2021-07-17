@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export default class SignIn extends Component {
 
@@ -18,12 +19,21 @@ export default class SignIn extends Component {
   };
 
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
       ...this.state,
       created_at: Date.now(),
     };
+    const loggedInUser = await axios.post("http://localhost:5000/login", {}, {
+      auth: {
+        username: this.state.name,
+        password: this.state.pswd
+      }
+    });
+    if (loggedInUser.data.token) {
+      localStorage.setItem("token", loggedInUser.data.token);
+    }
     console.log('handle submit payload is = ', payload);
     // this.props.socket.emit('createTicket', payload);
   };

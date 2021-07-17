@@ -1,7 +1,8 @@
 import React from 'react';
 import './client.css';
 import Alert from 'react-bootstrap/Alert';
-
+import axios from 'axios';
+import jwt from 'jsonwebtoken';
 class Client extends React.Component {
 
   constructor(props) {
@@ -19,8 +20,12 @@ class Client extends React.Component {
   // 3.use the socket.on props to connect to the socket.io backent
 
   componentDidMount() {
-    const clientName = prompt("What's your name?");
-    this.setState({ clientName });
+    const token = localStorage.getItem("token");
+    console.log(token);
+    const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
+    console.log(validUser);
+    const clientName =
+      this.setState({ clientName: validUser.username });
 
     this.props.socket.on('connect', () => {
 

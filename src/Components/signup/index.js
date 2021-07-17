@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
+import axios from 'axios';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -20,12 +20,21 @@ export default class SignUp extends Component {
   };
 
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
       ...this.state,
       created_at: Date.now(),
     };
+    const userDetails = {
+      username: this.state.name,
+      password: this.state.pswd,
+      address: this.state.address,
+      admin: this.state.control
+    }
+    const newUser = await axios.post("http://localhost:5000/signup", userDetails);
+    console.log(newUser.data);
+    //localStorage.setItem();
     console.log('handle submit payload is = ', payload);
     // this.props.socket.emit('createTicket', payload);
   };
