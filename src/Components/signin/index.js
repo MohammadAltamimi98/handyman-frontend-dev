@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 export default class SignIn extends Component {
 
@@ -9,7 +10,8 @@ export default class SignIn extends Component {
     super(props);
     this.state = {
       name: '',
-      pswd: ''
+      pswd: '',
+      successRedirect: false
     };
   }
 
@@ -30,17 +32,23 @@ export default class SignIn extends Component {
         username: this.state.name,
         password: this.state.pswd
       }
+    }).catch(err => {
+      alert(("wrong username or password"));
     });
-    if (loggedInUser.data.token) {
+    if (loggedInUser) {
       localStorage.setItem("token", loggedInUser.data.token);
+      this.setState({ successRedirect: true })
     }
-    console.log('handle submit payload is = ', payload);
+
+
     // this.props.socket.emit('createTicket', payload);
   };
 
 
   render() {
-
+    if (this.state.successRedirect) {
+      return <Redirect exact to="/admin" />
+    }
     return (
       <div>
 

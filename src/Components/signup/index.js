@@ -26,8 +26,11 @@ export default class SignUp extends Component {
       ...this.state,
       created_at: Date.now(),
     };
-    if (e.target.control == "admin") {
+    if (e.target.control === "admin") {
       this.setState({ admin: true })
+    }
+    else {
+      this.setState({ admin: false })
     }
     const userDetails = {
       username: this.state.name,
