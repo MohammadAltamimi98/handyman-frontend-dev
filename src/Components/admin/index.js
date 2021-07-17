@@ -1,6 +1,8 @@
 import React from 'react';
 import Ticket from './ticket';
+import jwt from 'jsonwebtoken';
 import './admin.css';
+import { Redirect } from 'react-router-dom';
 class Admin extends React.Component {
 
   constructor(props) {
@@ -9,6 +11,7 @@ class Admin extends React.Component {
       adminName: '',
       tickets: [],
       onlineAdmins: [],
+      redirect: false
     };
     console.log('PROPS', this.props);
   }
@@ -22,36 +25,52 @@ class Admin extends React.Component {
 
   componentDidMount() {
 
-    const adminName = prompt("What's your name?");
-    this.setState({ adminName });
+    const token = localStorage.getItem("token");
+    if (token) {
+      const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
 
-    this.props.socket.on('connect', () => {
-
-      // when a new admin joins: set state of name to admin name
-      this.props.socket.emit('join', { name: adminName });
-      this.props.socket.emit('getAll');
+      if (validUser.admin) {
+        console.log(validUser);
 
 
-      this.props.socket.on('newTicket', (payload) => {
-        this.setState({ tickets: [...this.state.tickets, payload] });
-        console.log(this.state.tickets)
-      });
+        this.props.socket.on('connect', () => {
+          const adminName =
+            this.setState({ adminName: validUser.username });
+          // when a new admin joins: set state of name to admin name
+          this.props.socket.emit('join', { adminName });
+          this.props.socket.emit('getAll');
 
 
-      this.props.socket.on('onlineAdmins', (payload) => {
-        this.setState({ onlineAdmins: [...this.state.onlineAdmins, payload] });
-      });
+          this.props.socket.on('newTicket', (payload) => {
+            this.setState({ tickets: [...this.state.tickets, payload] });
+            console.log(this.state.tickets)
+          });
 
 
-      this.props.socket.on('offlineAdmins', (payload) => {
-        console.log('offlineAdmins payload = ', payload);
+          this.props.socket.on('onlineAdmins', (payload) => {
+            this.setState({ onlineAdmins: [...this.state.onlineAdmins, payload] });
+          });
 
-        this.setState({
-          onlineAdmins: this.state.onlineAdmins.filter((admins) => admins.id !== payload.id),
+
+          this.props.socket.on('offlineAdmins', (payload) => {
+            console.log('offlineAdmins payload = ', payload);
+
+            this.setState({
+              onlineAdmins: this.state.onlineAdmins.filter((admins) => admins.id !== payload.id),
+            });
+          });
+
         });
-      });
+      }
+      else {
+        this.setState({ redirect: true })
+      }
 
-    });
+    }
+    else {
+      this.setState({ redirect: true })
+    }
+
   }
 
   handleClaim = (id, socketId) => {
@@ -66,15 +85,19 @@ class Admin extends React.Component {
 
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect
+        to="/" />
+    }
     return (
 
       <main className="admin-container">
         <section id="container">
           <h2>Opened Tickets</h2>
           <section id="tickets">
-            {this.state.tickets.map((ticket) => {
+            {this.state.tickets.map((ticket, idx) => {
               return (
-                <Ticket {...ticket} handleClaim={this.handleClaim} key={ticket.id} />
+                <Ticket {...ticket} handleClaim={this.handleClaim} key={idx} />
               );
             })}
           </section>
@@ -82,8 +105,8 @@ class Admin extends React.Component {
 
         <aside id="online-admins">
           <h2>Available Admins</h2>
-          {this.state.onlineAdmins.map((admins) => (
-            <h2 key={admins.id}>{admins.name}</h2>
+          {this.state.onlineAdmins.map((admins, id) => (
+            <h2 key={id}>{admins.id}{console.log(admins)}</h2>
           ))}
         </aside>
       </main>
