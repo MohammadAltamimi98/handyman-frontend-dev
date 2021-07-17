@@ -8,7 +8,6 @@ import { Link, useHistory } from 'react-router-dom';
 function Header() {
 
   const history = useHistory();
-
   function logOut() {
     localStorage.clear();
     history.push('/');
