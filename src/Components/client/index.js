@@ -11,7 +11,7 @@ class Client extends React.Component {
       clientName: '',
       clickedIt: false
     };
-    //console.log('PROPS', this.props.socket);
+    console.log('PROPS', this.props.socket);
   }
 
   // use `componentDidMount` lifescycle method that runs after the component rendered 
@@ -26,7 +26,7 @@ class Client extends React.Component {
         this.props.socket.on('connect', () => {
           // when the ticket is claimed by an admin; the client should be alerted.
           this.props.socket.on('claimed', function (payload) {
-            //console.log(payload, "claimed");
+            console.log(payload, "claimed");
             alert(`${payload.name} claimed your ticket`);
           });
         });
@@ -65,7 +65,7 @@ class Client extends React.Component {
       service: this.state.service,
       adminName: "any"
     }
-    //console.log(token, "token");
+    console.log(token, "token");
     const config = {
 
       headers: { authorization: `Bearer ${token}` }
