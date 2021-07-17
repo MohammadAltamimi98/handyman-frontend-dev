@@ -24,14 +24,14 @@ class Client extends React.Component {
     console.log(token);
     const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
     console.log(validUser);
-    const clientName =
-      this.setState({ clientName: validUser.username });
+    this.setState({ clientName: validUser.username });
 
     this.props.socket.on('connect', () => {
 
       // when the ticket is claimed by an admin; the client should be alerted.
 
       this.props.socket.on('claimed', function (payload) {
+        console.log(payload, "claimed");
         alert(`${payload.name} claimed your ticket`);
       });
     });

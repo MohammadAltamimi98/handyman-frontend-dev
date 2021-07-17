@@ -10,7 +10,7 @@ export default class SignUp extends Component {
       name: '',
       pswd: '',
       address: '',
-      control: ''
+      admin: false
     };
   }
 
@@ -26,12 +26,15 @@ export default class SignUp extends Component {
       ...this.state,
       created_at: Date.now(),
     };
+    if (e.target.control == "admin") {
+      this.setState({ admin: true })
+    }
     const userDetails = {
       username: this.state.name,
       password: this.state.pswd,
-      address: this.state.address,
-      admin: this.state.control
+      admin: this.state.admin
     }
+    console.log(userDetails);
     const newUser = await axios.post("http://localhost:5000/signup", userDetails);
     console.log(newUser.data);
     //localStorage.setItem();
