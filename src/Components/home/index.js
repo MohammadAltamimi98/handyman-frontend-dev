@@ -13,21 +13,27 @@ export default class Home extends Component {
     this.state = {
       showIn: false,
       showUp: false,
-      token: false
+      token: false,
+      clickin: true,
+      clickup: true
     };
   }
 
   handleClickShowUp = (e) => {
     this.setState({
       showUp: true,
-      showIn: false
+      showIn: false,
+      clickin: false,
+      clickup: false
     });
   };
 
   handleClickShowIn = (e) => {
     this.setState({
       showIn: true,
-      showUp: false
+      showUp: false,
+      clickup: false,
+      clickin: false
     });
   };
 
@@ -55,22 +61,30 @@ export default class Home extends Component {
         {this.state.showUp && <SignUp />}
         {this.state.showIn && <SignIn />}
 
+
+
         {this.state.token === false &&
           <>
-            <Button id="btn1"
-              variant="primary"
-              onClick={this.handleClickShowUp}
-              size="lg"
-            >
-              Sign Up
-            </Button>
-            <Button id="btn2"
-              variant="primary"
-              onClick={this.handleClickShowIn}
-              size="lg"
-            >
-              Sign In
-            </Button>
+            {this.state.clickin &&
+              <Button id="btn1"
+                variant="primary"
+                onClick={this.handleClickShowUp}
+                size="lg"
+              >
+                Sign Up
+              </Button>
+            }
+
+            {this.state.clickup &&
+              <Button id="btn2"
+                variant="primary"
+                onClick={this.handleClickShowIn}
+                size="lg"
+              >
+                Sign In
+              </Button>
+            }
+
           </>
         }
 
