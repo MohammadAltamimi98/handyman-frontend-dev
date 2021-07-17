@@ -13,6 +13,7 @@ export default class Home extends Component {
     this.state = {
       showIn: false,
       showUp: false,
+      token: false
     };
   }
 
@@ -29,6 +30,13 @@ export default class Home extends Component {
       showUp: false
     });
   };
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.setState({ token: true })
+    }
+  }
 
   render() {
     return (
@@ -47,21 +55,26 @@ export default class Home extends Component {
         {this.state.showUp && <SignUp />}
         {this.state.showIn && <SignIn />}
 
-        <Button id="btn1"
-          variant="primary"
-          onClick={this.handleClickShowUp}
-          size="lg"
-        >
-          Sign Up
-        </Button>
+        {this.state.token === false &&
+          <>
+            <Button id="btn1"
+              variant="primary"
+              onClick={this.handleClickShowUp}
+              size="lg"
+            >
+              Sign Up
+            </Button>
+            <Button id="btn2"
+              variant="primary"
+              onClick={this.handleClickShowIn}
+              size="lg"
+            >
+              Sign In
+            </Button>
+          </>
+        }
 
-        <Button id="btn2"
-          variant="primary"
-          onClick={this.handleClickShowIn}
-          size="lg"
-        >
-          Sign In
-        </Button>
+
 
         {/* </main> */}
       </div>
