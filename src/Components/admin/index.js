@@ -21,12 +21,7 @@ class Admin extends React.Component {
   // component Did mount :
   //1: set the adminName state
 
-  fetchTickets = async () => {
-    const HOST = process.env.REACT_APP_SERVER;
-    const token = localStorage.getItem("token");
-    const tickets = await axios.get(`${HOST}/alltickets`, { token })
-    return tickets.data;
-  }
+
 
   componentDidMount = async () => {
     if (this.props.verify()) {
