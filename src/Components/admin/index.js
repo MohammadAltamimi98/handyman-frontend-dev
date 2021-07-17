@@ -24,8 +24,9 @@ class Admin extends React.Component {
   //1: set the adminName state
 
   fetchTickets = async () => {
+    const HOST = process.env.REACT_APP_SERVER;
     const token = localStorage.getItem("token");
-    const tickets = await axios.get("http://localhost:5000/alltickets", { token })
+    const tickets = await axios.get(`${HOST}/alltickets`, { token })
     return tickets.data;
   }
 
