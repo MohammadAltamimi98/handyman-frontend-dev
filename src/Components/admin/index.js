@@ -51,7 +51,6 @@ class Admin extends React.Component {
             this.setState({ onlineAdmins: [...this.state.onlineAdmins, payload] });
           });
 
-
           this.props.socket.on('offlineAdmins', (payload) => {
             console.log('offlineAdmins payload = ', payload);
 
