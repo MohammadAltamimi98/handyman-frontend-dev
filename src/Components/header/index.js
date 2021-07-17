@@ -39,9 +39,9 @@ function Header() {
         <Navbar.Brand href="#home">HandyMan</Navbar.Brand>
 
         <Nav className="me-auto nav_bar_wrapper">
-          <Nav.Link exact href="/">Home</Nav.Link>
-          {localStorage.getItem('token') ? <> <Nav.Link exact href="/client">Client</Nav.Link>
-            <Nav.Link exact href="/admin">Admin</Nav.Link> </> : null}
+          <Nav.Link href="/">Home</Nav.Link>
+          {localStorage.getItem('token') ? <> <Nav.Link href="/client">Client</Nav.Link>
+            <Nav.Link href="/admin">Admin</Nav.Link> </> : null}
 
         </Nav>
         {localStorage.getItem('token') ?
