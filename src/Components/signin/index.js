@@ -27,7 +27,8 @@ export default class SignIn extends Component {
       ...this.state,
       created_at: Date.now(),
     };
-    const loggedInUser = await axios.post("http://localhost:5000/login", {}, {
+    const HOST = process.env.REACT_APP_SERVER;
+    const loggedInUser = await axios.post(`${HOST}/login`, {}, {
       auth: {
         username: this.state.name,
         password: this.state.pswd
