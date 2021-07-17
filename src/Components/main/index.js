@@ -24,8 +24,8 @@ function Main(props) {
   return (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} socket={socket} />} />
-      <Route path="/admin" render={(props) => <Admin {...props} verify={verify} socket={socket} />} />
-      <Route path="/client" render={(props) => <Client {...props} verify={verify} socket={socket} />} />
+      <Route exact path="/admin" render={(props) => <Admin {...props} verify={verify} socket={socket} />} />
+      <Route exact path="/client" render={(props) => <Client {...props} verify={verify} socket={socket} />} />
       <Route>
         <div>404</div>
       </Route>
