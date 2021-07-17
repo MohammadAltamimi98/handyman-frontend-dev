@@ -39,9 +39,9 @@ export default class SignUp extends Component {
     }
     const HOST = process.env.REACT_APP_SERVER;
     const newUser = await axios.post(`${HOST}/signup`, userDetails);
-    console.log(newUser.data);
+    //console.log(newUser.data);
     //localStorage.setItem();
-    console.log('handle submit payload is = ', payload);
+    //console.log('handle submit payload is = ', payload);
     // this.props.socket.emit('createTicket', payload);
   };
 
