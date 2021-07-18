@@ -24,10 +24,10 @@ export default class SignIn extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    // const payload = {
-    //   ...this.state,
-    //   created_at: Date.now(),
-    // };
+    const payload = {
+      ...this.state,
+      created_at: Date.now(),
+    };
     const HOST = process.env.REACT_APP_SERVER;
     const loggedInUser = await axios.post(`${HOST}/login`, {}, {
       auth: {
