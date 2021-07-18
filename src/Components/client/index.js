@@ -24,7 +24,7 @@ class Client extends React.Component {
     console.log(SERVER_URL);
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
-      const validUser = jwt.verify(token, secret);
+      const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
       this.setState({
         clientName: validUser.username
       });
@@ -35,7 +35,6 @@ class Client extends React.Component {
     }
   }
   componentDidMount() {
-    this.verify();
     this.props.socket.on('connect', () => {
       // when the ticket is claimed by an admin; the client should be alerted.
       this.props.socket.on('claimed', function (payload) {
@@ -69,7 +68,7 @@ class Client extends React.Component {
     };
     const token = localStorage.getItem("token");
     const secret = process.env.SECRET;
-    const validUser = jwt.verify(token, secret);
+    const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
 
     const newTicketData = {
       userid: validUser.id,
