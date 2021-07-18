@@ -18,21 +18,34 @@ class Client extends React.Component {
   // 1. get the client name 
   // 2.define the state `clientName` 
   // 3.use the socket.on props to connect to the socket.io backent
-
-  componentDidMount() {
-    if (this.props.verify()) {
-      if (!this.props.verify().admin) {
-        this.setState({ clientName: this.props.verify().username })
-        this.props.socket.on('connect', () => {
-          // when the ticket is claimed by an admin; the client should be alerted.
-          this.props.socket.on('claimed', function (payload) {
-            console.log(payload, "claimed");
-            alert(`${payload.name} claimed your ticket`);
-          });
-        });
-      }
+  verify = () => {
+    const SERVER_URL = process.env.REACT_APP_SERVER;
+    const secret = process.env.REACT_APP_SECRET;
+    console.log(SERVER_URL);
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      const validUser = jwt.verify(token, secret);
+      this.setState({
+        clientName: validUser.username
+      });
 
     }
+    else {
+      return "";
+    }
+  }
+  componentDidMount() {
+    this.verify();
+    this.props.socket.on('connect', () => {
+      // when the ticket is claimed by an admin; the client should be alerted.
+      this.props.socket.on('claimed', function (payload) {
+        console.log(payload, "claimed");
+        alert(`${payload.name} claimed your ticket`);
+      });
+    });
+
+
+
 
   }
 
@@ -72,7 +85,7 @@ class Client extends React.Component {
 
     }
     const SERVER_URL = process.env.REACT_APP_SERVER;
-    const newTicket = await axios.post(`${SERVER_URL}/tickets`, newTicketData, config)
+    await axios.post(`${SERVER_URL}/tickets`, newTicketData, config);
     this.props.socket.emit('createTicket', payload);
 
 

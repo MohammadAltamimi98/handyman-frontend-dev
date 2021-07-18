@@ -11,7 +11,6 @@ export default class SignIn extends Component {
     this.state = {
       name: '',
       pswd: '',
-      successRedirect: false
     };
   }
 
@@ -36,9 +35,9 @@ export default class SignIn extends Component {
     }).catch(err => {
       alert(("wrong username or password"));
     });
+    console.log(loggedInUser);
     if (loggedInUser) {
       localStorage.setItem("token", loggedInUser.data.token);
-      this.setState({ successRedirect: true })
     }
 
 
@@ -47,9 +46,6 @@ export default class SignIn extends Component {
 
 
   render() {
-    if (this.state.successRedirect) {
-      return <Redirect exact to="/admin" />
-    }
     return (
       <div>
 
