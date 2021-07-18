@@ -31,8 +31,17 @@
 <br/>
 
 
-<!-- * Netlify
-[]() -->
+* Netlify application
+
+[Netlify deploynment](https://handyman-services.netlify.app/)
+
+<br/>
+<br/>
+
+
+* Heroku application
+
+[Heroku deploynment](https://handyman-backend-project.herokuapp.com/)
 
 
 
