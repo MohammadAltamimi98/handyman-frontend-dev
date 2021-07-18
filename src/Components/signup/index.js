@@ -68,16 +68,16 @@ export default class SignUp extends Component {
 
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1" >
             <Form.Label>Address</Form.Label>
-            <Form.Control type="text" placeholder=" 123 Main Street, New York, NY 10030." name="address" onChange={this.handleChange} />
+            <Form.Control type="text" placeholder=" 123 Main Street, New York, NY 10030." name="address" onChange={this.handleChange} autoComplete="new-password" />
           </Form.Group>
           <br />
 
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox" onChange={this.handleChange} >
+          <Form.Group className="mb-3" controlId="formBasicCheckbox-1" onChange={this.handleChange} >
             <Form.Check type="radio" label="Admin" name="control" value="admin" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox" onChange={this.handleChange} checked >
+          <Form.Group className="mb-3" controlId="formBasicCheckbox-2" onChange={this.handleChange} checked >
             <Form.Check type="radio" label="Client" name="control" value="client" />
           </Form.Group>
 

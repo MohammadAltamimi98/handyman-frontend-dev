@@ -34,6 +34,7 @@ class Client extends React.Component {
       return "";
     }
   }
+
   componentDidMount() {
     this.props.socket.on('connect', () => {
       // when the ticket is claimed by an admin; the client should be alerted.
@@ -42,11 +43,9 @@ class Client extends React.Component {
         alert(`${payload.name} claimed your ticket`);
       });
     });
-
-
-
-
   }
+
+
 
   // handleChange: updates the values of the inputs simultaneously 
   handleChange = (e) => {
@@ -70,6 +69,7 @@ class Client extends React.Component {
     const secret = process.env.SECRET;
     const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
 
+
     const newTicketData = {
       userid: validUser.id,
       description: this.state.question,
@@ -86,7 +86,6 @@ class Client extends React.Component {
     const SERVER_URL = process.env.REACT_APP_SERVER;
     await axios.post(`${SERVER_URL}/tickets`, newTicketData, config);
     this.props.socket.emit('createTicket', payload);
-
 
     this.setState({
       clickedIt: true
