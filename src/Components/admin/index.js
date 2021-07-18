@@ -2,8 +2,7 @@ import React from 'react';
 import Ticket from './ticket';
 import Admins from './admins'
 import './admin.css';
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+import jwt from 'jsonwebtoken';
 class Admin extends React.Component {
 
   constructor(props) {
@@ -21,46 +20,59 @@ class Admin extends React.Component {
   // component Did mount :
   //1: set the adminName state
 
+  verify = () => {
+    const SERVER_URL = process.env.REACT_APP_SERVER;
+    const secret = process.env.REACT_APP_SECRET;
+    console.log(SERVER_URL);
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
 
-
-  componentDidMount = async () => {
-    if (this.props.verify()) {
-      if (this.props.verify().admin) {
-        this.setState({
-          adminName: this.props.verify().username
-        });
-        //console.log(await this.fetchTickets());
-        this.props.socket.on('connect', () => {
-          const adminName = this.state.adminName;
-          // when a new admin joins: set state of name to admin name
-          this.props.socket.emit('join', { adminName });
-          this.props.socket.emit('getAll');
-          this.props.socket.on('newTicket', (payload) => {
-            this.setState({ tickets: [...this.state.tickets, payload] });
-            console.log(this.state.tickets)
-          });
-
-
-          this.props.socket.on('onlineAdmins', (payload) => {
-            this.setState({ onlineAdmins: [...this.state.onlineAdmins, payload] });
-          });
-
-          this.props.socket.on('offlineAdmins', (payload) => {
-            console.log('offlineAdmins payload = ', payload);
-
-            this.setState({
-              onlineAdmins: this.state.onlineAdmins.filter((admins) => admins.id !== payload.id),
-            });
-          });
-
-        });
-      }
-
+      const validUser = jwt.verify(token, secret);
+      this.setState({
+        adminName: validUser.username
+      });
 
     }
+    else {
+      return "";
+    }
+  }
+
+  componentDidMount = async () => {
+    this.verify();
+
+
+    //console.log(await this.fetchTickets());
+    this.props.socket.on('connect', () => {
+      const adminName = this.state.adminName;
+      // when a new admin joins: set state of name to admin name
+      this.props.socket.emit('join', { adminName });
+      this.props.socket.emit('getAll');
+      this.props.socket.on('newTicket', (payload) => {
+        this.setState({ tickets: [...this.state.tickets, payload] });
+        console.log(this.state.tickets)
+      });
+
+
+      this.props.socket.on('onlineAdmins', (payload) => {
+        this.setState({ onlineAdmins: [...this.state.onlineAdmins, payload] });
+      });
+
+      this.props.socket.on('offlineAdmins', (payload) => {
+        console.log('offlineAdmins payload = ', payload);
+
+        this.setState({
+          onlineAdmins: this.state.onlineAdmins.filter((admins) => admins.id !== payload.id),
+        });
+      });
+
+    });
+
+
 
 
   }
+
 
   handleClaim = (id, socketId) => {
     console.log(socketId);
