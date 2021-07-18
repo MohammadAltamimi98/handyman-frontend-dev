@@ -20,7 +20,7 @@ class Client extends React.Component {
   // 3.use the socket.on props to connect to the socket.io backent
   verify = () => {
     const SERVER_URL = process.env.REACT_APP_SERVER;
-    const secret = process.env.REACT_APP_SECRET;
+    // const secret = process.env.REACT_APP_SECRET;
     console.log(SERVER_URL);
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
@@ -67,7 +67,7 @@ class Client extends React.Component {
       created_at: Date.now(),
     };
     const token = localStorage.getItem("token");
-    const secret = process.env.SECRET;
+    // const secret = process.env.SECRET;
     const validUser = jwt.verify(token, "HelloFromMohammedAlramahiTheBest");
 
     const newTicketData = {
